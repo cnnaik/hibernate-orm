@@ -23,14 +23,17 @@ jobs:
 before_script:
   - java -version
   - if [ "$HOSTTYPE" == "s390x" ];then
-      ./gradlew assemble --no-daemon;
+      export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8     
+      export _JAVA_OPTIONS=-Xmx10g                     
+      export LANG=en_US.UTF-8
+      ./gradlew --no-daemon assemble;
     else
       ./gradlew assemble;
     fi
       
 script:
   - if [ "$HOSTTYPE" == "s390x" ];then
-      ./gradlew check -Plog-test-progress=true --no-daemon;
+      ./gradlew --no-daemon check -Plog-test-progress=true;
     else
       ./gradlew check -Plog-test-progress=true;
     fi
